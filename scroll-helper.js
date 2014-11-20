@@ -1,6 +1,6 @@
 var RONENKO = RONENKO || {};
 
-RONENKO.scroll_spy =  (function () {
+RONENKO.scroll_helper =  (function () {
     'use strict';
 
     var current_position = document.body.scrollTop,
