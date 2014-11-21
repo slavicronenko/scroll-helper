@@ -2,9 +2,58 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Scroll Helper</title>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/colorpicker/css/colorpicker.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/slider/jquery-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/slider/jquery-ui.theme.min.css"/>
+    <link rel="stylesheet" type="text/css" href="settings.css"/>
+    <script type="text/javascript" src="assets/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/colorpicker/js/colorpicker.js"></script>
+    <script type="text/javascript" src="assets/slider/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="settings.js"></script>
 </head>
 <body>
-    settings
+<div class="container">
+    <div class="row">
+        <div class="well settings-wrapper">
+            <div class="checkbox">
+                <label for="enabled">
+                    <input type="checkbox" id="enabled">
+                    Enabled
+                </label>
+            </div>
+            <br/>
+
+            <div class="form-group form-group-sm">
+                <label for="width">Width</label>
+                <small>in pixels (1 - 10)</small>
+                <input type="number" min="1" max="10" class="form-control input-small" id="width" placeholder="Width">
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="style">Style</label>
+                <select class="form-control" id="style">
+                    <option>solid</option>
+                    <option>dotted</option>
+                    <option>dashed</option>
+                    <option>groove</option>
+                    <option>double</option>
+                    <option>ridge</option>
+                </select>
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="color">Color</label>
+                <input type="text" class="form-control input-small" id="color" placeholder="#00ff00">
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="opacity">Opacity</label>
+
+                <div id="opacity"></div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

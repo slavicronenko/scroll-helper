@@ -1,0 +1,18 @@
+.container {
+    width: 356px;
+}
+
+.form-group {
+    font-size: 0.8em;
+}
+
+.settings-wrapper {
+    margin-bottom: 0px;
+    padding: 5px 10px;
+    overflow: hidden;
+}
+
+.colorpicker {
+    left: 0px !important;
+    top: 0px !important;
+}

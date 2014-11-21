@@ -31,15 +31,15 @@ RONENKO.scroll_helper =  (function () {
 
 // public methods
         setColor = function(color) {
-            if(typeof color === 'string') {
+            if (typeof color === 'string') {
                 div.style.borderTopColor = color;
             } else {
                 throw new Error('You should pass a correct color (eg. "#369" or "#00ffcc").');
             }
         },
-        
+
         setOpacity = function(opacity) {
-            if(opacity > 0 && opacity <= 1) {
+            if (opacity > 0 && opacity <= 1) {
                 div.style.opacity = opacity;
             } else {
                 throw new Error('You should pass a number from 0 to 1 (default is 0.5).');
@@ -47,15 +47,15 @@ RONENKO.scroll_helper =  (function () {
         },
 
         setWidth = function(width) {
-            if(width >= 1 && width <= 10) {
+            if (width >= 1 && width <= 10) {
                 div.style.borderTopWidth = width + 'px';
             } else {
-				throw new Error('You should pass a number from 1 to 10');
+                throw new Error('You should pass a number from 1 to 10');
             }
         },
-        
-        setStyle = function(style) {
-            if((['dotted', 'dashed', 'solid', 'double', 'groove', 'ridge']).indexOf(style) != -1) {
+
+        setStyle = function (style) {
+            if ((['dotted', 'dashed', 'solid', 'double', 'groove', 'ridge']).indexOf(style) !== -1) {
                 div.style.borderTopStyle = style;
             } else {
                 throw new Error('You should pass one of this: dotted, dashed, solid, double, groove, ridge ');
@@ -70,27 +70,28 @@ RONENKO.scroll_helper =  (function () {
     }
 
     window.addEventListener('scroll', function () {
+        if (true) {
+            tmp_position = document.body.scrollTop;
 
-        tmp_position = document.body.scrollTop;
+            if (!timer) {
+                tmp_margin = (current_position < tmp_position) ? window.innerHeight : 0;
 
-        if (!timer) {
-            tmp_margin = (current_position < tmp_position) ? window.innerHeight : 0;
+                div.style.top = current_position + tmp_margin + 'px';
+                document.body.appendChild(div);
+            } else {
+                window.clearTimeout(timer);
+            }
 
-            div.style.top = current_position + tmp_margin + 'px';
-            document.body.appendChild(div);
-        } else {
-			window.clearTimeout(timer);
-		}
-		
-		timer = setTimeout(function () {
-			window.clearTimeout(timer);
-			timer = null;
-			div.parentElement.removeChild(div);
-		}, delay);
-		
-        current_position = tmp_position;
+            timer = setTimeout(function () {
+                window.clearTimeout(timer);
+                timer = null;
+                div.parentElement.removeChild(div);
+            }, delay);
+
+            current_position = tmp_position;
+        }
     });
-    
+
     return {
         element :   div,
         setColor : setColor,
