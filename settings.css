@@ -15,4 +15,21 @@
 .colorpicker {
     left: 0px !important;
     top: 0px !important;
+    z-index: 999 !important;
+}
+
+#color {
+    width: 36px;
+    height: 36px;
+    background: url(assets/colorpicker/images/select.png);
+    padding: 7px;
+}
+
+#color_val {
+    width: 22px;
+    height: 22px;
+}
+
+.preview {
+    height: 50px;
 }

@@ -28,29 +28,41 @@
             <br/>
 
             <div class="form-group form-group-sm">
-                <label for="width">Width</label>
-                <small>in pixels (1 - 10)</small>
-                <input type="number" min="1" max="10" class="form-control input-small" id="width" placeholder="Width">
+                <label>Width : <span id="width_val"></span>px</label>
+
+                <div id="width"></div>
             </div>
             <div class="form-group form-group-sm">
-                <label for="style">Style</label>
+                <label>Style</label>
                 <select class="form-control" id="style">
-                    <option>solid</option>
-                    <option>dotted</option>
-                    <option>dashed</option>
-                    <option>groove</option>
-                    <option>double</option>
-                    <option>ridge</option>
+                    <option value="solid">Solid</option>
+                    <option value="dotted">Dotted</option>
+                    <option value="dashed">Dashed</option>
+                    <option value="groove">Groove</option>
+                    <option value="double">Double</option>
+                    <option value="ridge">Ridge</option>
                 </select>
             </div>
             <div class="form-group form-group-sm">
                 <label for="color">Color</label>
-                <input type="text" class="form-control input-small" id="color" placeholder="#00ff00">
+                <div id="color">
+                    <div id="color_val"></div>
+                </div>
             </div>
             <div class="form-group form-group-sm">
-                <label for="opacity">Opacity</label>
+                <label>Opacity - <span id="opacity_val"></span></label>
 
                 <div id="opacity"></div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label>Delay - <span id="delay_val"></span> sec</label>
+
+                <div id="delay"></div>
+            </div>
+            <div class="form-group form-group-sm preview">
+                <label>Preview</label>
+
+                <div id="preview"></div>
             </div>
         </div>
     </div>
