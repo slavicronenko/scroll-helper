@@ -4,7 +4,7 @@ $(document).ready(function () {
         var enabled = data.enabled,
             width = data.width || 2,
             style = data.style || 'solid',
-            color = data.color || '#00ff00',
+            color = data.color || '00ff00',
             opacity = data.opacity || 0.5,
             delay = data.delay || 2000;
 
@@ -30,14 +30,14 @@ $(document).ready(function () {
         $('#style option[value="' + style + '"]').attr('selected', true);
 
         // Color
-        $('#color_val').css('background-color', color);
+        $('#color_val').css('background-color', '#' + color);
         $('#color').ColorPicker({
-            color: color,
+            color: '#' + color,
             onHide: function (hsb, hex) {
                 $('#color_val').css('background-color', '#' + hex);
 
                 $("#preview").css('border-top-color', '#' + hex);
-                chrome.storage.sync.set({'color': '#' + hex});
+                chrome.storage.sync.set({'color': hex});
             },
             onChange: function (hsb, hex) {
                 $("#preview").css('border-top-color', '#' + hex);
@@ -78,7 +78,7 @@ $(document).ready(function () {
         $('#preview').css({
             'border-top-width': width + 'px',
             'border-top-style': style,
-            'border-top-color': color,
+            'border-top-color': '#' + color,
             'opacity': opacity
         });
     });
@@ -95,10 +95,5 @@ $(document).ready(function () {
 
         $("#preview").css('border-top-style', this.value);
         chrome.storage.sync.set({'style': this.value});
-    });
-
-    // Preventing color change
-    $(document).on('change', '#color', function () {
-        return false;
     });
 });

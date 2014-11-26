@@ -21,7 +21,7 @@ RONENKO.scroll_helper = (function () {
             width: document.body.clientWidth + 'px',
             height: '0px',
             zIndex: '99999999',
-            borderTopColor: '#0f0',
+            borderTopColor: '#00ff00',
             borderTopStyle: 'solid',
             borderTopWidth: '1px',
             opacity: 0.5
@@ -93,7 +93,7 @@ RONENKO.scroll_helper = (function () {
             var enabled = data.enabled,
                 width = data.width || settings.width,
                 style = data.style || settings.borderTopStyle,
-                color = data.color || settings.borderTopColor,
+                color = data.color || '00ff00',
                 opacity = data.opacity || settings.opacity;
 
             delay = data.delay || delay;
@@ -104,7 +104,7 @@ RONENKO.scroll_helper = (function () {
                 setSettings({
                     width: width,
                     style: style,
-                    color: color,
+                    color: '#' + color,
                     opacity: opacity
                 });
 
