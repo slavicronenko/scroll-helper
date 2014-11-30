@@ -1,5 +1,5 @@
 var RONENKO = RONENKO || {};
-
+chrome.storage.sync.clear();
 RONENKO.scroll_helper = (function () {
     'use strict';
 
@@ -130,6 +130,7 @@ RONENKO.scroll_helper = (function () {
                 helper_width = data.helper_width || settings.width,
                 margin_left = data.margin_left || 0;
 
+            width = width.replace('px', '');
             delay = data.delay || delay;
 
             if (enabled) {
@@ -166,7 +167,7 @@ RONENKO.scroll_helper = (function () {
 
     window.addEventListener('keydown', function (e) {
         chrome.storage.sync.get(['enable_shortcut'], function (data) {
-            var enable_shortcut = data.enable_shortcut || false,
+            var enable_shortcut = data.enable_shortcut || 69,
                 key;
 
             if (!!enable_shortcut) {
