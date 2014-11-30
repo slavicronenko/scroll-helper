@@ -166,10 +166,11 @@ RONENKO.scroll_helper = (function () {
 
     window.addEventListener('keydown', function (e) {
         chrome.storage.sync.get(['enable_shortcut'], function (data) {
-            var enable_shortcut = data.enable_shortcut || false;
+            var enable_shortcut = data.enable_shortcut || false,
+                key;
 
             if (!!enable_shortcut) {
-                var key = String.fromCharCode(e.which).toLowerCase().charCodeAt(0);
+                key = String.fromCharCode(e.which).toLowerCase().charCodeAt(0);
 
                 if (e.which === 16) {
                     lshift_down = true;

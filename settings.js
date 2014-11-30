@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    'use strict';
     //getting settings from the storage
     chrome.storage.sync.get(['enabled', 'enable_shortcut', 'width', 'style', 'color', 'opacity', 'delay', 'helper_width', 'margin_left'], function (data) {
         var enabled = data.enabled,
@@ -42,17 +43,17 @@ $(document).ready(function () {
             max: 100,
             values: [margin_left, margin_left + helper_width],
             slide: function (event, ui) {
-                var helper_width = (100 - ui.values[0]) - (100 - ui.values[1]),
-                    margin_left = ui.values[0];
+                var h_width = (100 - ui.values[0]) - (100 - ui.values[1]),
+                    m_left = ui.values[0];
 
-                $("#preview").css('width', helper_width + '%');
-                $("#preview").css('margin-left', margin_left + '%');
+                $("#preview").css('width', h_width + '%');
+                $("#preview").css('margin-left', m_left + '%');
             },
             stop: function (event, ui) {
-                var helper_width = (100 - ui.values[0]) - (100 - ui.values[1]),
-                    margin_left = ui.values[0];
+                var h_width = (100 - ui.values[0]) - (100 - ui.values[1]),
+                    m_left = ui.values[0];
 
-                chrome.storage.sync.set({'helper_width': helper_width, 'margin_left': margin_left});
+                chrome.storage.sync.set({'helper_width': h_width, 'margin_left': m_left});
             }
         });
 
@@ -64,9 +65,9 @@ $(document).ready(function () {
         $('#color').ColorPicker({
             color: color,
             onHide: function (hsb) {
-                var color = $('#color_val').css('background-color');
+                var new_color = $('#color_val').css('background-color');
 
-                chrome.storage.sync.set({'color': color});
+                chrome.storage.sync.set({'color': new_color});
             },
             onChange: function (hsb, hex) {
                 $("#preview").css('border-top-color', '#' + hex);
