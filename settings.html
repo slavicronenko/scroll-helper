@@ -22,7 +22,7 @@
             <div class="checkbox">
                 <label for="enabled">
                     <input type="checkbox" id="enabled">
-                    Enabled
+                    Enabled <span class="small">(LShift + <input type="text" value="" id="enable_shortcut"/>)</span>
                 </label>
             </div>
             <br/>
@@ -31,6 +31,11 @@
                 <label>Width : <span id="width_val"></span>px</label>
 
                 <div id="width"></div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label>Position</label>
+
+                <div id="position"></div>
             </div>
             <div class="form-group form-group-sm">
                 <label>Style</label>
@@ -45,6 +50,7 @@
             </div>
             <div class="form-group form-group-sm">
                 <label for="color">Color</label>
+
                 <div id="color">
                     <div id="color_val"></div>
                 </div>
@@ -61,8 +67,9 @@
             </div>
             <div class="form-group form-group-sm preview">
                 <label>Preview</label>
-
-                <div id="preview"></div>
+                <div class="preview_wrapper">
+                    <div id="preview"></div>
+                </div>
             </div>
         </div>
     </div>

@@ -7,8 +7,6 @@ RONENKO.scroll_helper = (function () {
 
         timer = null,
 
-        option,
-
         tmp_margin,
 
         tmp_position,
@@ -18,18 +16,34 @@ RONENKO.scroll_helper = (function () {
 
         settings = {
             position: 'absolute',
-            width: document.body.clientWidth + 'px',
+            width: '100',
             height: '0px',
             zIndex: '99999999',
             borderTopColor: '#00ff00',
             borderTopStyle: 'solid',
             borderTopWidth: '1px',
+            marginLeft: '0',
             opacity: 0.5
         },
+
+        lshift_down = false,
 
         div = document.createElement('div'),
 
 // public methods
+        setCssStyle = function (props) {
+            var option;
+            if (typeof props === 'object') {
+                for (option in props) {
+                    if (props.hasOwnProperty(option)) {
+                        div.style[option] = props[option];
+                    }
+                }
+            } else {
+                throw new Error('You should pass an object with properties.');
+            }
+        },
+
         setColor = function (color) {
             if (typeof color === 'string') {
                 div.style.borderTopColor = color;
@@ -62,6 +76,22 @@ RONENKO.scroll_helper = (function () {
             }
         },
 
+        setMargin = function (margin) {
+            if (margin >= 0 && margin <= 100) {
+                div.style.marginLeft = margin + '%';
+            } else {
+                throw new Error('You should pass a number from 0 to 100. Value given - "' + margin + '"');
+            }
+        },
+
+        setHelperWidth = function (width) {
+            if (width >= 0 && width <= 100) {
+                div.style.width = width + '%';
+            } else {
+                throw new Error('You should pass a number from 0 to 100. Value given - "' + width + '"');
+            }
+        },
+
         setSettings = function (settings) {
             if (typeof settings === 'object' && !!settings) {
                 if (!!settings.width) {
@@ -76,25 +106,29 @@ RONENKO.scroll_helper = (function () {
                 if (!!settings.opacity) {
                     setOpacity(settings.opacity);
                 }
+                if (settings.margin_left !== undefined) {
+                    setMargin(settings.margin_left);
+                }
+                if (!!settings.helper_width) {
+                    setHelperWidth(settings.helper_width);
+                }
             } else {
                 throw new Error('You should pass object with settings (width, style, color, opacity).');
             }
         };
 
 //applying style settings to div
-    for (option in settings) {
-        if (settings.hasOwnProperty(option)) {
-            div.style[option] = settings[option];
-        }
-    }
+    setCssStyle(settings);
 
     window.addEventListener('scroll', function () {
-        chrome.storage.sync.get(['enabled', 'width', 'style', 'color', 'opacity', 'delay'], function (data) {
+        chrome.storage.sync.get(['enabled', 'width', 'style', 'color', 'opacity', 'delay', 'helper_width', 'margin_left'], function (data) {
             var enabled = data.enabled,
-                width = data.width || settings.width,
+                width = data.width || settings.borderTopWidth,
                 style = data.style || settings.borderTopStyle,
-                color = data.color || '00ff00',
-                opacity = data.opacity || settings.opacity;
+                color = data.color || settings.borderTopColor,
+                opacity = data.opacity || settings.opacity,
+                helper_width = data.helper_width || settings.width,
+                margin_left = data.margin_left || 0;
 
             delay = data.delay || delay;
 
@@ -104,8 +138,10 @@ RONENKO.scroll_helper = (function () {
                 setSettings({
                     width: width,
                     style: style,
-                    color: '#' + color,
-                    opacity: opacity
+                    color: color,
+                    opacity: opacity,
+                    margin_left: margin_left,
+                    helper_width: helper_width
                 });
 
                 if (!timer) {
@@ -128,9 +164,32 @@ RONENKO.scroll_helper = (function () {
         });
     });
 
-    /*window.addEventListener('keydown', function (e) {
-        console.log(228);
-    });*/
+    window.addEventListener('keydown', function (e) {
+        chrome.storage.sync.get(['enable_shortcut'], function (data) {
+            var enable_shortcut = data.enable_shortcut || false;
+
+            if (!!enable_shortcut) {
+                var key = String.fromCharCode(e.which).toLowerCase().charCodeAt(0);
+
+                if (e.which === 16) {
+                    lshift_down = true;
+                } else if (key === enable_shortcut) {
+                    if (lshift_down) {
+                        chrome.storage.sync.get(['enabled'], function (data) {
+
+                            chrome.storage.sync.set({'enabled': !data.enabled});
+                        });
+                    }
+                }
+            }
+        });
+    });
+
+    window.addEventListener('keyup', function (e) {
+        if (e.which === 16) {
+            lshift_down = false;
+        }
+    });
 
     return {
         element: div,
@@ -138,6 +197,8 @@ RONENKO.scroll_helper = (function () {
         setOpacity: setOpacity,
         setWidth: setWidth,
         setStyle: setStyle,
+        setMargin: setMargin,
+        setHelperWidth: setHelperWidth,
         setSettings: setSettings
     };
 }());
