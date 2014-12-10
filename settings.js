@@ -1,7 +1,7 @@
 $(document).ready(function () {
     'use strict';
     //getting settings from the storage
-    chrome.storage.sync.get(['enabled', 'enable_shortcut', 'width', 'style', 'color', 'opacity', 'delay', 'helper_width', 'margin_left'], function (data) {
+    chrome.storage.sync.get(['enabled', 'enable_shortcut', 'width', 'style', 'color', 'opacity', 'delay', 'helper_width', 'marginLeft'], function (data) {
         var enabled = data.enabled,
             enable_shortcut = data.enable_shortcut || 69,
             width = data.width || 2,
@@ -10,7 +10,7 @@ $(document).ready(function () {
             opacity = data.opacity || 0.5,
             delay = data.delay || 2000,
             helper_width = data.helper_width || 100,
-            margin_left = data.margin_left || 0;
+            marginLeft = data.marginLeft || 0;
 
         // "Enabled" checkbox
         $('#enabled').attr('checked', enabled);
@@ -36,12 +36,12 @@ $(document).ready(function () {
 
         // Position
         $("#preview").css('width', helper_width + '%');
-        $("#preview").css('margin-left', margin_left + '%');
+        $("#preview").css('margin-left', marginLeft + '%');
         $("#position").slider({
             range: true,
             min: 0,
             max: 100,
-            values: [margin_left, margin_left + helper_width],
+            values: [marginLeft, marginLeft + helper_width],
             slide: function (event, ui) {
                 var h_width = (100 - ui.values[0]) - (100 - ui.values[1]),
                     m_left = ui.values[0];
@@ -53,7 +53,7 @@ $(document).ready(function () {
                 var h_width = (100 - ui.values[0]) - (100 - ui.values[1]),
                     m_left = ui.values[0];
 
-                chrome.storage.sync.set({'helper_width': h_width, 'margin_left': m_left});
+                chrome.storage.sync.set({'helper_width': h_width, 'marginLeft': m_left});
             }
         });
 
