@@ -11,27 +11,28 @@ RONENKO.scroll_helper = (function () {
         div = document.createElement('div'),
         default_style = {
             position: 'absolute',
-            width: '100',
+            width: '100%',
             height: '0px',
             zIndex: '999999999999999',
             borderTopColor: '#00ff00',
             borderTopStyle: 'solid',
             borderTopWidth: '1px',
-            marginLeft: '0',
+            marginLeft: '0%',
             opacity: 0.5
         };
 
     //Setting the default parameters
-    chrome.storage.sync.get(['enabled', 'borderTopWidth', 'borderTopStyle', 'borderTopColor', 'opacity', 'delay', 'width', 'marginLeft'], function (parameters) {
+    chrome.storage.sync.get(['enabled', 'borderTopWidth', 'borderTopStyle', 'borderTopColor', 'opacity', 'delay', 'width', 'marginLeft', 'enable_shortcut'], function (parameters) {
         var default_parameters = {
                 'enabled': true,
-                'borderTopWidth': 1,
-                'borderTopStyle': 'solid',
-                'borderTopColor': '#00ff00',
-                'opacity': 0.5,
-                'delay': 30000,
-                'width': 100,
-                'marginLeft': 0
+                'borderTopWidth': default_style.borderTopWidth.replace('px', ''),
+                'borderTopStyle': default_style.borderTopStyle,
+                'borderTopColor': default_style.borderTopColor,
+                'opacity': default_style.opacity,
+                'delay': 3000,
+                'width': default_style.width.replace('%', ''),
+                'marginLeft': default_style.marginLeft.replace('%', ''),
+                enable_shortcut: 69
             },
             i,
             changed = false;
@@ -57,24 +58,23 @@ RONENKO.scroll_helper = (function () {
                 }
             }
         } else {
-            throw new Error('You should pass an object with properties.');
+            throw new Error('You should pass an object with style properties.');
         }
-    }
-
-    (default_style);
+    }(default_style);
 
     window.addEventListener('scroll', function () {
-        chrome.storage.sync.get(['enabled', 'borderTopWidth', 'borderTopStyle', 'color', 'opacity', 'delay', 'helper_width', 'marginLeft'], function (data) {
+        chrome.storage.sync.get(['enabled', 'borderTopWidth', 'borderTopStyle', 'borderTopColor', 'opacity', 'delay', 'width', 'marginLeft'], function (data) {
+            console.log(data);
             if (data.enabled) {
                 tmp_position = document.body.scrollTop;
 
                 setCssStyle({
-                    borderTopWidth: data.width + 'px',
-                    borderTopStyle: data.style,
-                    borderTopColor: data.color,
+                    borderTopWidth: data.borderTopWidth + 'px',
+                    borderTopStyle: data.borderTopStyle,
+                    borderTopColor: data.borderTopColor,
                     opacity: data.opacity,
                     marginLeft: data.marginLeft + '%',
-                    width: data.helper_width + '%'
+                    width: data.width + '%'
                 });
 
                 if (!timer) {
@@ -99,7 +99,7 @@ RONENKO.scroll_helper = (function () {
 
     window.addEventListener('keydown', function (e) {
         chrome.storage.sync.get(['enable_shortcut'], function (data) {
-            var enable_shortcut = data.enable_shortcut || 69,
+            var enable_shortcut = data.enable_shortcut,
                 key;
 
             if (!!enable_shortcut) {

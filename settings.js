@@ -1,15 +1,15 @@
 $(document).ready(function () {
     'use strict';
     //getting settings from the storage
-    chrome.storage.sync.get(['enabled', 'enable_shortcut', 'width', 'style', 'color', 'opacity', 'delay', 'helper_width', 'marginLeft'], function (data) {
+    chrome.storage.sync.get(['enabled', 'borderTopWidth', 'borderTopStyle', 'borderTopColor', 'opacity', 'delay', 'width', 'marginLeft', 'enable_shortcut'], function (data) {
         var enabled = data.enabled,
-            enable_shortcut = data.enable_shortcut || 69,
-            width = data.width || 2,
-            style = data.style || 'solid',
-            color = (!(data.color === '#undefined' || !data.color)) ? data.color : '#00ff00',
-            opacity = data.opacity || 0.5,
-            delay = data.delay || 2000,
-            helper_width = data.helper_width || 100,
+            enable_shortcut = data.enable_shortcut,
+            borderTopWidth = data.borderTopWidth,
+            borderTopStyle = data.borderTopStyle,
+            borderTopColor = data.borderTopColor,
+            opacity = data.opacity,
+            delay = data.delay,
+            width = data.width,
             marginLeft = data.marginLeft || 0;
 
         // "Enabled" checkbox
@@ -20,28 +20,28 @@ $(document).ready(function () {
 
 
         // Width
-        $("#width_val").text(width);
+        $("#width_val").text(borderTopWidth);
         $("#width").slider({
             min: 1,
             max: 20,
-            value: width,
+            value: borderTopWidth,
             slide: function (event, ui) {
                 $("#width_val").text(ui.value);
                 $("#preview").css('border-top-width', ui.value + 'px');
             },
             stop: function (event, ui) {
-                chrome.storage.sync.set({'width': ui.value});
+                chrome.storage.sync.set({'borderTopWidth': ui.value});
             }
         });
 
         // Position
-        $("#preview").css('width', helper_width + '%');
+        $("#preview").css('width', width + '%');
         $("#preview").css('margin-left', marginLeft + '%');
         $("#position").slider({
             range: true,
             min: 0,
             max: 100,
-            values: [marginLeft, marginLeft + helper_width],
+            values: [marginLeft, marginLeft + width],
             slide: function (event, ui) {
                 var h_width = (100 - ui.values[0]) - (100 - ui.values[1]),
                     m_left = ui.values[0];
@@ -53,21 +53,21 @@ $(document).ready(function () {
                 var h_width = (100 - ui.values[0]) - (100 - ui.values[1]),
                     m_left = ui.values[0];
 
-                chrome.storage.sync.set({'helper_width': h_width, 'marginLeft': m_left});
+                chrome.storage.sync.set({'width': h_width, 'marginLeft': m_left});
             }
         });
 
         // Style
-        $('#style option[value="' + style + '"]').attr('selected', true);
+        $('#style option[value="' + borderTopStyle + '"]').attr('selected', true);
 
         // Color
-        $('#color_val').css('background-color', color);
+        $('#color_val').css('background-color', borderTopColor);
         $('#color').ColorPicker({
-            color: color,
+            color: borderTopColor,
             onHide: function (hsb) {
                 var new_color = $('#color_val').css('background-color');
 
-                chrome.storage.sync.set({'color': new_color});
+                chrome.storage.sync.set({'borderTopColor': new_color});
             },
             onChange: function (hsb, hex) {
                 $("#preview").css('border-top-color', '#' + hex);
@@ -106,9 +106,9 @@ $(document).ready(function () {
 
         //Preview
         $('#preview').css({
-            'border-top-width': width + 'px',
-            'border-top-style': style,
-            'border-top-color': color,
+            'border-top-width': borderTopWidth + 'px',
+            'border-top-style': borderTopStyle,
+            'border-top-color': borderTopColor,
             'opacity': opacity
         });
 
@@ -139,6 +139,6 @@ $(document).ready(function () {
     $(document).on('change', '#style', function () {
 
         $("#preview").css('border-top-style', this.value);
-        chrome.storage.sync.set({'style': this.value});
+        chrome.storage.sync.set({'borderTopStyle': this.value});
     });
 });
