@@ -3,7 +3,7 @@
 
   "name": "Scroll Helper",
   "description": "This extension will help you with navigation on the large articles while you scrolling.",
-  "version": "0.3.2.3",
+  "version": "0.4",
   "permissions": [
     "storage"
   ],
