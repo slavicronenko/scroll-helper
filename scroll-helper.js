@@ -1,5 +1,4 @@
 var RONENKO = RONENKO || {};
-//chrome.storage.sync.clear();
 RONENKO.scroll_helper = (function () {
     'use strict';
 
@@ -32,7 +31,7 @@ RONENKO.scroll_helper = (function () {
                 'delay': 3000,
                 'width': default_style.width.replace('%', ''),
                 'marginLeft': default_style.marginLeft.replace('%', ''),
-                enable_shortcut: 69
+                'enable_shortcut': 101
             },
             i,
             changed = false;
@@ -60,11 +59,12 @@ RONENKO.scroll_helper = (function () {
         } else {
             throw new Error('You should pass an object with style properties.');
         }
-    }(default_style);
+    };
+
+    setCssStyle(default_style);
 
     window.addEventListener('scroll', function () {
         chrome.storage.sync.get(['enabled', 'borderTopWidth', 'borderTopStyle', 'borderTopColor', 'opacity', 'delay', 'width', 'marginLeft'], function (data) {
-            console.log(data);
             if (data.enabled) {
                 tmp_position = document.body.scrollTop;
 
@@ -78,7 +78,7 @@ RONENKO.scroll_helper = (function () {
                 });
 
                 if (!timer) {
-                    tmp_margin = (current_position < tmp_position) ? window.innerHeight : 0;
+                    tmp_margin = (current_position < tmp_position) ? window.innerHeight - data.borderTopWidth : 0;
 
                     div.style.top = current_position + tmp_margin + 'px';
                     document.body.appendChild(div);
@@ -99,18 +99,16 @@ RONENKO.scroll_helper = (function () {
 
     window.addEventListener('keydown', function (e) {
         chrome.storage.sync.get(['enable_shortcut'], function (data) {
-            var enable_shortcut = data.enable_shortcut,
-                key;
+            var key;
 
-            if (!!enable_shortcut) {
+            if (!!data.enable_shortcut) {
                 key = String.fromCharCode(e.which).toLowerCase().charCodeAt(0);
 
                 if (e.which === 16) {
                     lshift_down = true;
-                } else if (key === enable_shortcut) {
+                } else if (key === data.enable_shortcut) {
                     if (lshift_down) {
                         chrome.storage.sync.get(['enabled'], function (data) {
-
                             chrome.storage.sync.set({'enabled': !data.enabled});
                         });
                     }
